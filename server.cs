@@ -3,14 +3,53 @@ exec("./lights.cs");
 schedule(0,0,Mining_initLights);
 exec("./sounds.cs");
 
+//ugh, blockland
+$Mining::Root = "Add-Ons/Gamemode_Mining2";
+
 function initMining() {
+	if(isObject(BiomeList)) {
+		for(%i=0;%i<BiomeList.getCount();%i++) {
+			BiomeList.getObject(%i).delete();
+		}
+		BiomeList.delete();
+	}
+	if(isObject(MiningClass)) {
+		for(%i=0;%i<MiningClass.getCount();%i++) {
+			MiningClass.getObject(%i).delete();
+		}
+		MiningClass.delete();
+	}
+
 	%set = new SimSet(MiningClass) {
 		timeInit = getSimTime();
 	};
+
+	%biomes = new SimSet(BiomeList);
+	%file = new FileObject();
+	%file.openForRead($Mining::Root @ "/db/biomes.db");
+	while(!%file.isEOF()) {
+		%line = %file.readLine();
+		if(getSubStr(%line,0,2) $= "//") {
+			continue;
+		}
+		%biome = new ScriptObject(MiningBiome) {
+			type = getField(%line,0);
+			color = getField(%line,1);
+			health = getField(%line,2);
+			rarity = getField(%line,3);
+			max_ore_lvl = getField(%line,4);
+		};
+		%biomes.add(%biome);
+	}
+	%file.close();
+	%file.delete();
+
+	%set.add(%biomes);
+
 	return %set;
 }
-if(!isObject($MiningClass)) {
-	$MiningClass = initMining();
+if(!isObject($MiningSet)) {
+	$MiningSet = initMining();
 }
 
 exec("./player_functions.cs");
