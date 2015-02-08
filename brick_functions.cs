@@ -49,6 +49,7 @@ function fxDTSBrick::mineBrick(%this,%player) {
 	if(%this.hits >= %this.health) {
 		%this.fakeKillBrick();
 		%this.playSound(pop_high);
+		%this.hits = %this.health;
 
 		%this.placeSurroundings();
 
@@ -56,5 +57,26 @@ function fxDTSBrick::mineBrick(%this,%player) {
 	} else {
 		%this.playSound(pop_low);
 	}
-	%client.centerPrint(%this.hits,1);
+	%client.printMiningBrickInfo(%this);
+}
+
+function GameConnection::printMiningBrickInfo(%this,%brick) {
+	%hits = %brick.hits;
+	%max_hits = %brick.health;
+	%color = rgbToHex(getColorIDTable(%brick.colorID));
+	%str[0] = "<just:left><font:Arial Bold:30><color:" @ %color @ ">" @ %brick.type @ "<just:right>\c6" @ %brick.hits @ "/" @ %brick.health;
+
+	%str[1] = "<br><font:Courier:16><just:center>\c3-\c6";
+	%pblen = 70;
+	%width = mCeil((%hits/%max_hits)*%pblen);
+	for(%i=0;%i<%width;%i++) {
+		%add = %add @ "-";
+	}
+	%add = %add @ "\c7";
+	for(%i=0;%i<(%pblen-%width);%i++) {
+		%add = %add @ "-";
+	}
+	%str[1] = %str[1] @ %add @ "\c3-";
+
+	%this.centerPrint(%str[0] @ %str[1],2);
 }

@@ -3,6 +3,8 @@ exec("./lights.cs");
 schedule(0,0,Mining_initLights);
 exec("./sounds.cs");
 
+exec("./support.cs");
+
 //ugh, blockland
 $Mining::Root = "Add-Ons/Gamemode_Mining2";
 
