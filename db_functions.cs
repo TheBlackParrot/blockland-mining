@@ -11,7 +11,7 @@ function getBiome(%brick) {
 	}
 
 	%rand = getRandom(0,%chance_total);
-	if(getRandom(0,100) <= 99) {
+	if(getRandom(0,170) <= 169) {
 		return %brick.biomeObj;
 	} else {
 		for(%i=0;%i<BiomeList.getCount();%i++) {
