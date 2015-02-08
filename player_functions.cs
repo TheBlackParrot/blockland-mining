@@ -16,7 +16,7 @@ function Player::miningLoop(%this) {
 		%this.wasLookingAt.setColorFX(0);
 	}
 	%this.wasLookingAt = %brick;
-	%this.miningLoop = %this.schedule(150,miningLoop);
+	%this.miningLoop = %this.schedule(%this.client.getMiningDelay(),miningLoop);
 }
 function Player::stopMining(%this) {
 	cancel(%this.miningLoop);
@@ -27,24 +27,6 @@ function Player::stopMining(%this) {
 		cancel(%brick.lightSched);
 	}
 }
-
-package MiningPlayerPackage {
-	function armor::onTrigger(%db,%obj,%slot,%val) {
-		if(%obj.getClassName() $= "Player" && !%slot) {
-			if(%val == 1) {
-				if(getSimTime() - %obj.lastTriggered > 500) {
-					%obj.miningLoop();
-					%obj.lastTriggered = getSimTime();
-				}
-			} else {
-				%obj.stopMining();
-			}
-		}
-
-		return Parent::onTrigger(%db,%obj,%slot,%val);
-	}
-};
-activatePackage(MiningPlayerPackage);
 
 function Player::getLookingAt(%this,%distance)
 {
@@ -70,15 +52,35 @@ function GameConnection::updateBottomPrint(%this) {
 	%ores = "copper coal silver iron gold platinum titanium diamond uranium plutonium solarium aegisalt rubium violium erchius";
 	for(%i=0;%i<getWordCount(%ores);%i++) {
 		%ore = getWord(%ores,%i);
-		for(%j=0;%j<OreList.getCount();%j++) {
-			%row = OreList.getObject(%j);
-			if(strLwr(%row.type) $= %ore) {
-				break;
-			}
-		}
 		if(%this.amount[%ore]) {
-			%amount_str = %amount_str @ "<color:" @ RGBToHex(getColorIDTable(%row.color)) @ ">" @ strUpr(getSubStr(%ore,0,1)) @ "\c6" @ %this.amount[%ore] @ " ";
+			%amount_str = %amount_str @ "<color:" @ getOreColor(%ore) @ ">" @ strUpr(getSubStr(%ore,0,1)) @ "\c6" @ %this.amount[%ore] @ " ";
 		}
 	}
 	%this.bottomPrint(%amount_str);
 }
+
+function GameConnection::getMiningDelay(%this) {
+	%speed = 500 - ((%this.level[speed]-1) * 5);
+	if(%speed < 100) {
+		%speed = 100;
+	}
+	return %speed;
+}
+
+package MiningPlayerPackage {
+	function armor::onTrigger(%db,%obj,%slot,%val) {
+		if(%obj.getClassName() $= "Player" && !%slot) {
+			if(%val == 1) {
+				if(getSimTime() - %obj.lastTriggered > %obj.client.getMiningDelay()) {
+					%obj.miningLoop();
+					%obj.lastTriggered = getSimTime();
+				}
+			} else {
+				%obj.stopMining();
+			}
+		}
+
+		return Parent::onTrigger(%db,%obj,%slot,%val);
+	}
+};
+activatePackage(MiningPlayerPackage);

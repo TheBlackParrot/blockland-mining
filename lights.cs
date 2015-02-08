@@ -31,3 +31,6 @@ datablock fxLightData(Mining_LightTrigger)
 
 	flareOn = false;
 };
+
+PlayerLight.radius = 8;
+PlayerLight.brightness = 4;

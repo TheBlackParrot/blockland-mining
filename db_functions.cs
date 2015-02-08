@@ -43,7 +43,6 @@ function getOre(%brick) {
 	} else {
 		for(%i=0;%i<%ore_count;%i++) {
 			if(%rand >= %ore[%i,min_range] && %rand <= %ore[%i,max_range]) {
-				talk("OBTAINED" SPC %ore[%i].type);
 				return %ore[%i];
 			}
 		}

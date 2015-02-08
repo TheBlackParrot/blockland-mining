@@ -22,7 +22,6 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 			}
 		}
 		if(isObject(%ore) && %ore != -1 && %ore !$= "") {
-			talk("OBTAINED[bf]" SPC %ore.type);
 			%color = %ore.color;
 			%health = %ore.health;
 			%type = %ore.type;
@@ -57,7 +56,7 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 	return %brick || -1;
 }
 schedule(100,0,Mining_newBrick,50,50,50);
-schedule(150,0,Mining_doExplosion,$Mining::Brick[50,50,50].getPosition(),30);
+schedule(300,0,Mining_doExplosion,$Mining::Brick[50,50,50].getPosition(),30);
 
 function fxDTSBrick::placeSurroundings(%this) {
 	%x = getWord(%this.getPosition(),0);
@@ -73,9 +72,8 @@ function fxDTSBrick::placeSurroundings(%this) {
 }
 
 function fxDTSBrick::mineBrick(%this,%player) {
-	talk("Triggered [B]" SPC %this);
 	%client = %player.client;
-	%this.hits += 5;
+	%this.hits += %client.level[power];
 	if(%this.hits >= %this.health) {
 		%this.fakeKillBrick();
 		%this.playSound(pop_high);

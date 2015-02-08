@@ -23,3 +23,13 @@ function RGBToHex(%rgb) {
 	}
 	return %hexstr;
 }
+
+function getOreColor(%ore) {
+	for(%i=0;%i<OreList.getCount();%i++) {
+		%row = OreList.getObject(%i);
+		if(strLwr(%row.type) $= %ore) {
+			break;
+		}
+	}
+	return RGBToHex(getColorIDTable(%row.color));
+}

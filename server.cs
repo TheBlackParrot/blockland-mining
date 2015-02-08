@@ -81,6 +81,7 @@ exec("./brick_functions.cs");
 exec("./db_functions.cs");
 exec("./explosions.cs");
 exec("./levels.cs");
+exec("./commands.cs");
 
 package MiningServerPackage {
 	function onServerDestroyed() {
