@@ -65,3 +65,20 @@ function Player::getLookingAt(%this,%distance)
 		return %hit;
 	}
 }
+
+function GameConnection::updateBottomPrint(%this) {
+	%ores = "copper coal silver iron gold platinum titanium diamond uranium plutonium solarium aegisalt rubium violium erchius";
+	for(%i=0;%i<getWordCount(%ores);%i++) {
+		%ore = getWord(%ores,%i);
+		for(%j=0;%j<OreList.getCount();%j++) {
+			%row = OreList.getObject(%j);
+			if(strLwr(%row.type) $= %ore) {
+				break;
+			}
+		}
+		if(%this.amount[%ore]) {
+			%amount_str = %amount_str @ "<color:" @ RGBToHex(getColorIDTable(%row.color)) @ ">" @ strUpr(getSubStr(%ore,0,1)) @ "\c6" @ %this.amount[%ore] @ " ";
+		}
+	}
+	%this.bottomPrint(%amount_str);
+}

@@ -57,6 +57,7 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 	return %brick || -1;
 }
 schedule(100,0,Mining_newBrick,50,50,50);
+schedule(150,0,Mining_doExplosion,$Mining::Brick[50,50,50].getPosition(),30);
 
 function fxDTSBrick::placeSurroundings(%this) {
 	%x = getWord(%this.getPosition(),0);
@@ -80,12 +81,19 @@ function fxDTSBrick::mineBrick(%this,%player) {
 		%this.playSound(pop_high);
 		%this.hits = %this.health;
 
+		if(isObject(%this.oreObj)) {
+			%row = %this.oreObj;
+			%client.amount[strLwr(%row.type)]++;
+			%client.points += %row.value;
+		}
+
 		%this.placeSurroundings();
 
 		%this.schedule(3000,delete);
 	} else {
 		%this.playSound(pop_low);
 	}
+	%client.updateBottomPrint();
 	%client.printMiningBrickInfo(%this);
 }
 
