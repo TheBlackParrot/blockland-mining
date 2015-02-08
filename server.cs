@@ -54,6 +54,7 @@ if(!isObject($MiningSet)) {
 
 exec("./player_functions.cs");
 exec("./brick_functions.cs");
+exec("./db_functions.cs");
 
 package MiningServerPackage {
 	function onServerDestroyed() {

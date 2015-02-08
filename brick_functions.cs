@@ -1,9 +1,11 @@
-function Mining_newBrick(%x,%y,%z) {
+function Mining_newBrick(%x,%y,%z,%prev) {
 	if(!$Mining::Brick[%x,%y,%z]) {
+		%biome = getBiome(%prev || -1);
+
 		%brick = new fxDTSBrick(MiningBrick) {
 			angleID = 0;
 			colorFxID = 0;
-			colorID = 0;
+			colorID = %biome.color;
 			dataBlock = "brick8xCubeData";
 			isBasePlate = 1;
 			isPlanted = 1;
@@ -12,7 +14,9 @@ function Mining_newBrick(%x,%y,%z) {
 			scale = "1 1 1";
 			shapeFxID = 0;
 			stackBL_ID = 888888;
-			health = getRandom(10,15);
+			health = %biome.health + mCeil(getRandom((%biome.health/6)*-1,%biome.health/4));
+			type = %biome.type;
+			biomeObj = %biome;
 		};
 		BrickGroup_888888.add(%brick);
 		%brick.plant();
@@ -30,12 +34,12 @@ function fxDTSBrick::placeSurroundings(%this) {
 	%y = getWord(%this.getPosition(),1);
 	%z = getWord(%this.getPosition(),2);
 
-	Mining_newBrick(%x+4,%y,%z);
-	Mining_newBrick(%x-4,%y,%z);
-	Mining_newBrick(%x,%y+4,%z);
-	Mining_newBrick(%x,%y-4,%z);
-	Mining_newBrick(%x,%y,%z+4);
-	Mining_newBrick(%x,%y,%z-4);
+	Mining_newBrick(%x+4,%y,%z,%this);
+	Mining_newBrick(%x-4,%y,%z,%this);
+	Mining_newBrick(%x,%y+4,%z,%this);
+	Mining_newBrick(%x,%y-4,%z,%this);
+	Mining_newBrick(%x,%y,%z+4,%this);
+	Mining_newBrick(%x,%y,%z-4,%this);
 }
 
 function fxDTSBrick::mineBrick(%this,%player) {
