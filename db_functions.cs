@@ -23,3 +23,31 @@ function getBiome(%brick) {
 
 	return 1;
 }
+
+function getOre(%brick) {
+	%ore_count = 0;
+	for(%i=0;%i<OreList.getCount();%i++) {
+		%row = OreList.getObject(%i);
+		if(stripos(%row.lvl,%brick.biomeObj.max_ore_lvl) != -1) {
+			%ore[%ore_count] = OreList.getObject(%i);
+			%chance_total += %ore[%ore_count].rarity;
+			%ore[%ore_count,min_range] = %chance_total - %ore[%ore_count].rarity;
+			%ore[%ore_count,max_range] = %chance_total;
+			%ore_count++;
+		}
+	}
+
+	%rand = getRandom(0,%chance_total);
+	if(%brick.oreObj != -1 && %brick.oreObj !$= "") {
+		return %brick.oreObj;
+	} else {
+		for(%i=0;%i<%ore_count;%i++) {
+			if(%rand >= %ore[%i,min_range] && %rand <= %ore[%i,max_range]) {
+				talk("OBTAINED" SPC %ore[%i].type);
+				return %ore[%i];
+			}
+		}
+	}
+
+	return OreList.getObject(1);
+}

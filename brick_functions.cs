@@ -2,10 +2,37 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 	if(!$Mining::Brick[%x,%y,%z]) {
 		%biome = getBiome(%prev || -1);
 
+		%ore = -1;
+		%color = %biome.color;
+		%health = %biome.health;
+		%type = %biome.type;
+		%value = 0;
+
+		if(isObject(%prev)) {
+			if(isObject(%prev.oreObj) && getRandom(0,50) <= 6) {
+				%ore = %prev.oreObj;
+			} else {
+				if(getRandom(0,100) <= 6) {
+					%ore = getOre(%prev || -1);
+				}
+			}
+		} else {
+			if(getRandom(0,100) <= 6) {
+				%ore = getOre(%prev || -1);
+			}
+		}
+		if(isObject(%ore) && %ore != -1 && %ore !$= "") {
+			talk("OBTAINED[bf]" SPC %ore.type);
+			%color = %ore.color;
+			%health = %ore.health;
+			%type = %ore.type;
+			%value = %ore.value;
+		}
+
 		%brick = new fxDTSBrick(MiningBrick) {
 			angleID = 0;
 			colorFxID = 0;
-			colorID = %biome.color;
+			colorID = %color;
 			dataBlock = "brick8xCubeData";
 			isBasePlate = 1;
 			isPlanted = 1;
@@ -14,9 +41,11 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 			scale = "1 1 1";
 			shapeFxID = 0;
 			stackBL_ID = 888888;
-			health = %biome.health + mCeil(getRandom((%biome.health/6)*-1,%biome.health/4));
-			type = %biome.type;
+			health = %health + mCeil(getRandom((%health/6)*-1,%health/4));
+			type = %type;
+			value = %value;
 			biomeObj = %biome;
+			oreObj = %ore;
 		};
 		BrickGroup_888888.add(%brick);
 		%brick.plant();
@@ -45,7 +74,7 @@ function fxDTSBrick::placeSurroundings(%this) {
 function fxDTSBrick::mineBrick(%this,%player) {
 	talk("Triggered [B]" SPC %this);
 	%client = %player.client;
-	%this.hits++;
+	%this.hits += 5;
 	if(%this.hits >= %this.health) {
 		%this.fakeKillBrick();
 		%this.playSound(pop_high);

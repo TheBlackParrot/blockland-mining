@@ -26,8 +26,9 @@ function initMining() {
 		timeInit = getSimTime();
 	};
 
-	%biomes = new SimSet(BiomeList);
 	%file = new FileObject();
+
+	%biomes = new SimSet(BiomeList);
 	%file.openForRead($Mining::Root @ "/db/biomes.db");
 	while(!%file.isEOF()) {
 		%line = %file.readLine();
@@ -44,9 +45,30 @@ function initMining() {
 		%biomes.add(%biome);
 	}
 	%file.close();
+
+	%ores = new SimSet(OreList);
+	%file.openForRead($Mining::Root @ "/db/ores.db");
+	while(!%file.isEOF()) {
+		%line = %file.readLine();
+		if(getSubStr(%line,0,2) $= "//") {
+			continue;
+		}
+		%ore = new ScriptObject(MiningBiome) {
+			type = getField(%line,0);
+			color = getField(%line,1);
+			health = getField(%line,2);
+			rarity = getField(%line,3);
+			value = getField(%line,4);
+			lvl = getField(%line,5);
+		};
+		%ores.add(%ore);
+	}
+	%file.close();
+
 	%file.delete();
 
 	%set.add(%biomes);
+	%set.add(%ores);
 
 	return %set;
 }
