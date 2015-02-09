@@ -124,7 +124,7 @@ function fxDTSBrick::checkSurroundingLiquids(%this) {
 	%brick[1] = $Mining::Brick[%x-4,%y,%z];
 	%brick[2] = $Mining::Brick[%x,%y+4,%z];
 	%brick[3] = $Mining::Brick[%x,%y-4,%z];
-	%brick[4] = $Mining::Brick[%x,%y,%z-4];
+	%brick[4] = $Mining::Brick[%x,%y,%z+4];
 	for(%i=0;%i<5;%i++) {
 		if(isObject(%brick[%i])) {
 			if(%brick[%i].PhysicalZone) {
