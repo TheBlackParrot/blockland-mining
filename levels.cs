@@ -30,6 +30,10 @@ function GameConnection::increaseLevel(%this,%which) {
 
 	%can_increase = 1;
 
+	if(%this.getMiningDelay() <= 100 && %which $= "speed") {
+		messageClient(%this,'',"\c6You cannot increase your \c3speed level \c6any further.");
+	}
+
 	for(%i=0;%i<getFieldCount(%costs);%i++) {
 		%field = getField(%costs,%i);
 
@@ -56,16 +60,6 @@ function GameConnection::increaseLevel(%this,%which) {
 			}
 		}
 		messageClient(%this,'',"\c6Your\c3" SPC %which SPC "level \c6has been increased to \c4level" SPC %this.level[%which] @ "\c6!");
+		%this.updateBottomPrint();
 	}
 }
-
-package MiningLevelPackage {
-	function GameConnection::autoAdminCheck(%this) {
-		%this.level[power] = 1;
-		%this.level[speed] = 1;
-		%this.setCosts();
-
-		return parent::autoAdminCheck(%this);
-	}
-};
-activatePackage(MiningLevelPackage);

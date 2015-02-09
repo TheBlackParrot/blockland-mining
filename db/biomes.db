@@ -4,7 +4,9 @@ Dirt	57	20	100	1
 Rock	52	40	25	2
 Blaststone	51	70	15	3
 Dry Dirt	59	15	50	1
-Sand	48	12	35	1
+Sand	63	12	35	1
 Gravel	54	15	35	2
-Obsidian	32	120	5	4
-Ice	35	20	15	2
+Obsidian	32	120	5	5
+Ice	35	90	8	4
+Flesh	0	150	2	6
+Bone	48	200	1	7

@@ -57,11 +57,11 @@ $EnvGuiServer::SunFlareSize 1
 $EnvGuiServer::VisibleDistance 115.487
 $EnvGuiServer::FogDistance 10.2564
 $EnvGuiServer::FogHeight 
-$EnvGuiServer::FogColor 0.481155 0.481155 0.528037 1.000000
+$EnvGuiServer::FogColor 0.381155 0.381155 0.428037 1.000000
 $EnvGuiServer::WaterColor 1.000000 1.000000 1.000000 0.501961
 $EnvGuiServer::WaterHeight 5
 $EnvGuiServer::UnderWaterColor 0.000000 0.000000 0.501961 0.501961
-$EnvGuiServer::SkyColor 0.481155 0.481155 0.528037 1.000000
+$EnvGuiServer::SkyColor 0.381155 0.381155 0.428037 1.000000
 $EnvGuiServer::WaterScrollX 0
 $EnvGuiServer::WaterScrollY 0
 $EnvGuiServer::GroundColor 0.000000 0.501961 0.250980 1.000000
@@ -89,18 +89,18 @@ $MiniGame::SelfDamage 1
 $MiniGame::VehicleDamage 0
 $MiniGame::BrickDamage 0
 $MiniGame::EnableWand 0
-$MiniGame::EnableBuilding 1
-$MiniGame::EnablePainting 1
+$MiniGame::EnableBuilding 0
+$MiniGame::EnablePainting 0
 $MiniGame::BotDamage 1
 $MiniGame::BotRespawnTime 15
 $MiniGame::Points_KillBot 0
 $MiniGame::PlayerDataBlockName Standard Player
 
-$MiniGame::StartEquipName0 Wrench
+$MiniGame::StartEquipName0 0
 $MiniGame::StartEquipName1 0 
 $MiniGame::StartEquipName2 0
 $MiniGame::StartEquipName3 0
 $MiniGame::StartEquipName4 0
 
 //config settings
-$Server::WelcomeMessage \c2Welcome to Blockland, %1.
+$Server::WelcomeMessage \c6Please note this is a heavy work in progress. \c2Please read the /help command, thanks.

@@ -8,6 +8,22 @@ exec("./support.cs");
 //ugh, blockland
 $Mining::Root = "Add-Ons/Gamemode_Mining2";
 
+function setMiningVersion() {
+	if(!isFile($Mining::Root @ "/.git/refs/heads/master")) {
+		$Mining::Version = "UNDF?";
+		return;
+	}
+
+	%file = new FileObject();
+	%file.openForRead($Mining::Root @ "/.git/refs/heads/master");
+
+	$Mining::Version = getSubStr(%file.readLine(),0,6);
+
+	%file.close();
+	%file.delete();
+}
+setMiningVersion();
+
 function initMining() {
 	if(isObject(BiomeList)) {
 		for(%i=0;%i<BiomeList.getCount();%i++) {
@@ -82,6 +98,9 @@ exec("./db_functions.cs");
 exec("./explosions.cs");
 exec("./levels.cs");
 exec("./commands.cs");
+exec("./saving.cs");
+
+PlayerStandardArmor.jumpForce = "1300";
 
 package MiningServerPackage {
 	function onServerDestroyed() {
@@ -90,3 +109,26 @@ package MiningServerPackage {
 	}
 };
 activatePackage(MiningServerPackage);
+
+function doSpawn() {
+	Mining_newBrick(50,50,2500);
+	schedule(400,0,Mining_doExplosion,$Mining::Brick[50,50,2500],30);
+
+	PlayerDropPoints.delete();
+	%points = new SimGroup(PlayerDropPoints) {
+		new SpawnSphere() {
+			position = "50 50 2350";
+			rotation = "0 0 1 130.062";
+			scale = "0.940827 1.97505 1";
+			dataBlock = "SpawnSphereMarker";
+			canSetIFLs = "0";
+			radius = "20";
+			sphereWeight = "1";
+			indoorWeight = "1";
+			outdoorWeight = "1";
+			RayHeight = "150";
+		};
+	};
+	MissionGroup.add(%points);
+}
+schedule(100,0,doSpawn);

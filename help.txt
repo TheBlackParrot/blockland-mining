@@ -1,0 +1,23 @@
+<color:0000ff>================
+<color:00ffff>Welcome to TheBlackParrot's Mining Gamemode!
+<color:ffffff>This is under heavy development, so bugs and weird things are bound to occur. Please report them immediately if you come across any.
+<a:github.com/TheBlackParrot/blockland-mining>GitHub repository</a> <color:999999>|| <a:github.com/TheBlackParrot/blockland-mining/issues>Issue tracker
+<color:ffffff>When submitting a bug report, <color:ffee00>mention the version you see here: <color:11aaff>%%VERSION.
+<color:ff00ff>==-- GAMEMODE INFO --==
+<color:ff00bb>-- BRICK GENERATION --
+<color:ffffff>Unlike the traditional mining mode, mining down... actually won't help you. Brick generation has been split into "biomes".
+<color:ffffff>These "biomes" contain the ores you can mine, and they're not dependent on your position. Some contain rarer ores, some contain more common ones.
+<color:ffffff>Biomes are player-generated, meaning essentially they're not pre-generated. You have the ability to expand, and destroy biomes by mining it, or mining around it.
+<color:ff00bb>-- WHERE'S MY PICKAXE? --
+<color:ffffff>I've done away with the idea of a pickaxe, and have decided to go a route more similar to Starbound's "Matter Manipulator". Just click to "manipulate matter".
+<color:ffffff>Instead of upgrading the power of your pickaxe like every other mining gamemode, you upgrade your Manipulator's <color:ffee00>power <color:ffffff>and <color:ffee00>speed. <color:999999>(so far)
+<color:ffffff>Cash isn't used to upgrade it either; I've actually done away with cash for the time being. You collect ores to upgrade your power and speed individually.
+<color:ffffff>Power and speed are also separate, feel free to upgrade one but not the other.
+<color:ff00bb>-- SAVING/LOADING --
+<color:ffffff>Both saving and loading is automatic. Every time you mine <color:ffee00>any brick<color:ffffff>, your game saves. Crashes + data loss is a thing of the past.
+<color:ffffff>Your game loads when you enter the server, and it would be pointless to re-load your data manually due to the way it saves.
+<color:ffffff>Your data is fine, trust me.
+<color:ff00ff>==-- COMMANDS --==
+<color:ffee00>/help <color:ffffff>-- This command you're reading.
+<color:ffee00>/upgrade <color:ff00ff>[power,speed] <color:ffffff>-- Upgrades the level of the item specified. The amount of ores you need is mentioned in case you do not have enough.
+<color:0000ff>================

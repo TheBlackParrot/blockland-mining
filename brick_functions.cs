@@ -50,13 +50,11 @@ function Mining_newBrick(%x,%y,%z,%prev) {
 		%brick.plant();
 		%brick.setTrusted(1);
 
-		$Mining::Brick[%x,%y,%z] = 1;
+		$Mining::Brick[%x,%y,%z] = %brick;
 	}
 
 	return %brick || -1;
 }
-schedule(100,0,Mining_newBrick,50,50,50);
-schedule(300,0,Mining_doExplosion,$Mining::Brick[50,50,50].getPosition(),30);
 
 function fxDTSBrick::placeSurroundings(%this) {
 	%x = getWord(%this.getPosition(),0);
@@ -86,6 +84,7 @@ function fxDTSBrick::mineBrick(%this,%player) {
 		}
 
 		%this.placeSurroundings();
+		%client.saveMiningGame();
 
 		%this.schedule(3000,delete);
 	} else {

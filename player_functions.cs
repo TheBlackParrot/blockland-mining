@@ -60,7 +60,7 @@ function GameConnection::updateBottomPrint(%this) {
 }
 
 function GameConnection::getMiningDelay(%this) {
-	%speed = 500 - ((%this.level[speed]-1) * 5);
+	%speed = 400 - ((%this.level[speed]-1) * 8);
 	if(%speed < 100) {
 		%speed = 100;
 	}
