@@ -81,10 +81,28 @@ function initMining() {
 	}
 	%file.close();
 
+	%liquids = new SimSet(LiquidList);
+	%file.openForRead($Mining::Root @ "/db/liquids.db");
+	while(!%file.isEOF()) {
+		%line = %file.readLine();
+		if(getSubStr(%line,0,2) $= "//") {
+			continue;
+		}
+		%liquid = new ScriptObject(MiningBiome) {
+			type = getField(%line,0);
+			color = getField(%line,1);
+			rarity = getField(%line,2);
+			hazardous = getField(%line,3);
+		};
+		%liquids.add(%liquid);
+	}
+	%file.close();
+
 	%file.delete();
 
 	%set.add(%biomes);
 	%set.add(%ores);
+	%set.add(%liquids);
 
 	return %set;
 }
@@ -94,6 +112,7 @@ if(!isObject($MiningSet)) {
 
 exec("./player_functions.cs");
 exec("./brick_functions.cs");
+exec("./liquid_functions.cs");
 exec("./db_functions.cs");
 exec("./explosions.cs");
 exec("./levels.cs");
@@ -111,13 +130,13 @@ package MiningServerPackage {
 activatePackage(MiningServerPackage);
 
 function doSpawn() {
-	Mining_newBrick(50,50,2500);
-	schedule(400,0,Mining_doExplosion,$Mining::Brick[50,50,2500],30);
+	Mining_newBrick(48,48,2500);
+	schedule(400,0,Mining_doExplosion,$Mining::Brick[48,48,2500],30);
 
 	PlayerDropPoints.delete();
 	%points = new SimGroup(PlayerDropPoints) {
 		new SpawnSphere() {
-			position = "50 50 2350";
+			position = "48 48 2350";
 			rotation = "0 0 1 130.062";
 			scale = "0.940827 1.97505 1";
 			dataBlock = "SpawnSphereMarker";

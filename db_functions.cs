@@ -50,3 +50,22 @@ function getOre(%brick) {
 
 	return OreList.getObject(1);
 }
+
+function getLiquid() {
+	for(%i=0;%i<LiquidList.getCount();%i++) {
+		%row = LiquidList.getObject(%i);
+		%liquid[%i] = LiquidList.getObject(%i);
+		%chance_total += %liquid[%i].rarity;
+		%liquid[%i,min_range] = %chance_total - %liquid[%i].rarity;
+		%liquid[%i,max_range] = %chance_total;
+	}
+
+	%rand = getRandom(0,%chance_total);
+	for(%i=0;%i<LiquidList.getCount();%i++) {
+		if(%rand >= %liquid[%i,min_range] && %rand <= %liquid[%i,max_range]) {
+			return %liquid[%i];
+		}
+	}
+
+	return LiquidList.getObject(1);
+}

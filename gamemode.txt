@@ -90,7 +90,7 @@ $MiniGame::VehicleDamage 0
 $MiniGame::BrickDamage 0
 $MiniGame::EnableWand 0
 $MiniGame::EnableBuilding 0
-$MiniGame::EnablePainting 0
+$MiniGame::EnablePainting 1
 $MiniGame::BotDamage 1
 $MiniGame::BotRespawnTime 15
 $MiniGame::Points_KillBot 0
