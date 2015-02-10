@@ -1,7 +1,7 @@
 function Mining_doExplosionStep(%pos,%radius,%o_realtime) {
 	InitContainerRadiusSearch(%pos,%radius,$TypeMasks::FXBrickObjectType);
 	while((%targetObject = containerSearchNext()) != 0) {
-		%targetObject.placeSurroundings(1);
+		%targetObject.placeSurroundings(1,"",1);
 		if(%targetObject)
 			%targetObject.delete();
 	}

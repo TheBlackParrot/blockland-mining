@@ -1,4 +1,4 @@
-function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid) {
+function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
 	if(!$Mining::Brick[%x,%y,%z]) {
 		%biome = getBiome(%prev || -1);
 
@@ -79,20 +79,85 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid) {
 			%zone.setWaterColor(getWords(getColorIDTable(%brick.color),0,2) SPC "0.5");
 		}
 	}
+
+	if(getRandom(0,450) <= 6 && !%isTunnel) {
+		if(isObject(%prev)) {
+			if(%prev.oreObj == -1) {
+				if(isObject(%brick)) {
+					%brick.spawnTunnel();
+				}
+			}
+		}
+	}
 	return %brick || -1;
 }
 
-function fxDTSBrick::placeSurroundings(%this,%disable_liquid) {
+function fxDTSBrick::placeSurroundings(%this,%disable_liquid,%pos_override,%isTunnel) {
 	%x = getWord(%this.getPosition(),0);
 	%y = getWord(%this.getPosition(),1);
 	%z = getWord(%this.getPosition(),2);
 
-	Mining_newBrick(%x+4,%y,%z,%this,%disable_liquid);
-	Mining_newBrick(%x-4,%y,%z,%this,%disable_liquid);
-	Mining_newBrick(%x,%y+4,%z,%this,%disable_liquid);
-	Mining_newBrick(%x,%y-4,%z,%this,%disable_liquid);
-	Mining_newBrick(%x,%y,%z+4,%this,%disable_liquid);
-	Mining_newBrick(%x,%y,%z-4,%this,%disable_liquid);
+	if(%pos_override !$= "" && getWordCount(%pos_override) == 3) {
+		%x = getWord(%pos_override,0);
+		%y = getWord(%pos_override,0);
+		%z = getWord(%pos_override,0);
+	}
+
+	Mining_newBrick(%x+4,%y,%z,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x-4,%y,%z,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x,%y+4,%z,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x,%y-4,%z,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x,%y,%z+4,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x,%y,%z-4,%this,%disable_liquid,%isTunnel);
+}
+
+function fxDTSBrick::spawnTunnel(%this) {
+	%x = getWord(%this.getPosition(),0);
+	%y = getWord(%this.getPosition(),1);
+	%z = getWord(%this.getPosition(),2);
+
+	%this.digTunnel(%x,%y,%z);
+}
+
+function fxDTSBrick::digTunnel(%this,%x,%y,%z) {
+	%this.placeSurroundings(1,"",1);
+	switch(getRandom(1,3)) {
+		case 1:
+			%rand = getRandom(-1,1);
+			while(!%rand) {
+				%rand = getRandom(-1,1);
+			}
+			%x += %rand*4;
+
+		case 2:
+			%rand = getRandom(-1,1);
+			while(!%rand) {
+				%rand = getRandom(-1,1);
+			}
+			%y += %rand*4;
+
+		case 3:
+			%rand = getRandom(-1,1);
+			while(!%rand) {
+				%rand = getRandom(-1,1);
+			}
+			%z += %rand*4;
+	}
+	Mining_newBrick(%x,%y,%z,%this,1,1);
+	%brick = $Mining::Brick[%x,%y,%z];
+	if(isObject(%brick)) {
+		if(!%brick.isFakeDead()) {
+			%brick.placeSurroundings(1,"",1);
+		}
+	}
+	if(getRandom(0,150) != 150) {
+		if(isObject(%brick)) {
+			if(!%brick.isFakeDead()) {
+				%brick.digTunnel(%x,%y,%z);
+			}
+		}
+	}
+	%this.schedule(100,delete);
 }
 
 function fxDTSBrick::isSurrounded(%this) {

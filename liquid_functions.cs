@@ -1,12 +1,10 @@
 package MiningLiquidPackage {
 	function PlayerStandardArmor::onEnterLiquid(%data,%obj,%coverage,%type) {
-		talk(%data SPC %obj SPC %coverage SPC %type);
 		%obj.schedule(100,doLiquidLoop);
 		return parent::onEnterLiquid(%data,%obj,%coverage,%type);
 	}
 	function PlayerStandardArmor::onLeaveLiquid(%data,%obj,%coverage,%type) {
 		cancel(%obj.liquidLoop);
-		talk(%data SPC %obj SPC %coverage SPC %type);
 		return parent::onLeaveLiquid(%data,%obj,%coverage,%type);
 	}
 };

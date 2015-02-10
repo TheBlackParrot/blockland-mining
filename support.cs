@@ -33,3 +33,34 @@ function getOreColor(%ore) {
 	}
 	return RGBToHex(getColorIDTable(%row.color));
 }
+
+// keeping in case of things
+function Player::getDirectionFacing(%this) {
+	%va = getWord(%this.getForwardVector(),0);
+	%vb = getWord(%this.getForwardVector(),1);
+
+	if(mAbs(%va) > mAbs(%vb)) {
+		if(%va > 0) {
+			return 0; // north
+		} else {
+			return 2; // south
+		}
+	} else {
+		if(%vb > 0) {
+			return 1; // east
+		} else {
+			return 3; // west
+		}
+	}
+
+	return -1;
+}
+
+function Player::getDirectionUpDown(%this) {
+	%ud = getWord(%this.getEyeVector(),2);
+	if(%ud >= 0) {
+		return 0; // up
+	} else {
+		return 1; // down
+	}
+}
