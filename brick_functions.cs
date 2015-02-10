@@ -76,7 +76,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
 			%brick.setRaycasting(1);
 
 			%zone = %brick.PhysicalZone;
-			%zone.setWaterColor(getWords(getColorIDTable(%brick.color),0,2) SPC "0.5");
+			%zone.setWaterColor(getWords(getColorIDTable(%color),0,2) SPC "0.4");
 		}
 	}
 

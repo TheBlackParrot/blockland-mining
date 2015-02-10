@@ -19,6 +19,7 @@ function Player::doLiquidLoop(%this) {
 		if(%targetObject.liquidObj != -1) {
 			if(%targetObject.hazardous) {
 				%this.addHealth(-5);
+				%this.playPain();
 			}
 		}
 	}
