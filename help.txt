@@ -17,6 +17,10 @@
 <color:ffffff>Both saving and loading is automatic. Every time you mine <color:ffee00>any brick<color:ffffff>, your game saves. Crashes + data loss is a thing of the past.
 <color:ffffff>Your game loads when you enter the server, and it would be pointless to re-load your data manually due to the way it saves.
 <color:ffffff>Your data is fine, trust me.
+<color:ff00ff>==-- CHANGELOG --==
+<color:22ffaa>9c4ecb <color:999999>[02/13/2015] <color:ffffff>-- added zombies/swords, leveling system is a placeholder (will expand later), cavern chance balancing
+<color:22ffaa>43a27c <color:999999>[02/09/2015] <color:ffffff>-- added caverns, added liquids
+<color:22ffaa>604a2b <color:999999>[02/08/2015] <color:ffffff>-- first appearance of server
 <color:ff00ff>==-- COMMANDS --==
 <color:ffee00>/help <color:ffffff>-- This command you're reading.
 <color:ffee00>/upgrade <color:ff00ff>[power,speed] <color:ffffff>-- Upgrades the level of the item specified. The amount of ores you need is mentioned in case you do not have enough.
