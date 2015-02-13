@@ -1,4 +1,4 @@
-function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
+function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 	if(!$Mining::Brick[%x,%y,%z]) {
 		%biome = getBiome(%prev || -1);
 
@@ -30,7 +30,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
 			%type = %ore.type;
 			%value = %ore.value;
 		} else {
-			if(getRandom(0,100) <= 6 && !%disable_liquid) {
+			if(getRandom(0,100) <= 6 && !%disable_special) {
 				%liquid = getLiquid();
 				%color = %liquid.color;
 				%type = %liquid.type;
@@ -80,7 +80,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
 		}
 	}
 
-	if(getRandom(0,450) <= 6 && !%isTunnel) {
+	if(getRandom(0,600) <= 6 && !%isTunnel) {
 		if(isObject(%prev)) {
 			if(%prev.oreObj == -1) {
 				if(isObject(%brick)) {
@@ -89,10 +89,77 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_liquid,%isTunnel) {
 			}
 		}
 	}
+
+	if(getRandom(0,1100) <= 5 && !%isTunnel && !%disable_special) {
+		%spawner = new fxDTSBrick(MiningBrick) {
+			angleID = 0;
+			colorFxID = 0;
+			colorID = 0;
+			dataBlock = "BrickZombie_HoleSpawnData";
+			isBasePlate = 0;
+			isPlanted = 1;
+			isBotHole = 1;
+			position = "0 0 999999";
+			printID = 0;
+			scale = "1 1 1";
+			shapeFxID = 0;
+			stackBL_ID = 888888;
+		};
+		BrickGroup_888888.add(%spawner);
+		%spawner.plant();
+		%spawner.setTrusted(1);
+		%player = new AIPlayer()
+		{
+			dataBlock = ZombieHoleBot;
+			path = "";
+			spawnBrick = %spawner;
+			position = %x SPC %y SPC %z+2;
+			Name = ZombieHoleBot.hName;
+			hType = ZombieHoleBot.hType;
+			hSearchRadius = ZombieHoleBot.hSearchRadius;
+			hSearch = ZombieHoleBot.hSearch;
+			hSight = ZombieHoleBot.hSight;
+			hWander = 0;
+			hGridWander = ZombieHoleBot.hGridWander;
+			hReturnToSpawn = 0;
+			hSpawnDist = ZombieHoleBot.hSpawnDist;
+			hMelee = ZombieHoleBot.hMelee;
+			hAttackDamage = ZombieHoleBot.hAttackDamage;
+			hSpazJump = ZombieHoleBot.hSpazJump;
+			hSearchFOV = 0;
+			hFOVRadius = ZombieHoleBot.hFOVRadius;
+			hTooCloseRange = ZombieHoleBot.hTooCloseRange;
+			hAvoidCloseRange = ZombieHoleBot.hAvoidCloseRange;
+			hShoot = ZombieHoleBot.hShoot;
+			hMaxShootRange = ZombieHoleBot.hMaxShootRange;
+			hStrafe = ZombieHoleBot.hStrafe;
+			hAlertOtherBots = 1;
+			hIdleAnimation = ZombieHoleBot.hIdleAnimation;
+			hSpasticLook = ZombieHoleBot.hSpasticLook;
+			hAvoidObstacles = 1;
+			hIdleLookAtOthers = ZombieHoleBot.hIdleLookAtOthers;
+			hIdleSpam = ZombieHoleBot.hIdleSpam;
+			hAFKOmeter = ZombieHoleBot.hAFKOmeter + getRandom( 0, 2 );
+			hHearing = ZombieHoleBot.hHearing;
+			hIdle = ZombieHoleBot.hIdle;
+			hSmoothWander = ZombieHoleBot.hSmoothWander;
+			hEmote = 0;
+			hSuperStacker = ZombieHoleBot.hSuperStacker;
+			hNeutralAttackChance = ZombieHoleBot.hNeutralAttackChance;
+			hFOVRange = 180;
+			hMoveSlowdown = ZombieHoleBot.hMoveSlowdown;
+			hMaxMoveSpeed = 1.0;
+			hActivateDirection = ZombieHoleBot.hActivateDirection;
+			isHoleBot = 1;
+		};
+		%spawner.hBot = %player;
+		%spawner.onBotSpawn();
+		%spawner.schedule(66,correctBotPosition,%x,%y,%z+2);
+	}
 	return %brick || -1;
 }
 
-function fxDTSBrick::placeSurroundings(%this,%disable_liquid,%pos_override,%isTunnel) {
+function fxDTSBrick::placeSurroundings(%this,%disable_special,%pos_override,%isTunnel) {
 	%x = getWord(%this.getPosition(),0);
 	%y = getWord(%this.getPosition(),1);
 	%z = getWord(%this.getPosition(),2);
@@ -103,12 +170,12 @@ function fxDTSBrick::placeSurroundings(%this,%disable_liquid,%pos_override,%isTu
 		%z = getWord(%pos_override,0);
 	}
 
-	Mining_newBrick(%x+4,%y,%z,%this,%disable_liquid,%isTunnel);
-	Mining_newBrick(%x-4,%y,%z,%this,%disable_liquid,%isTunnel);
-	Mining_newBrick(%x,%y+4,%z,%this,%disable_liquid,%isTunnel);
-	Mining_newBrick(%x,%y-4,%z,%this,%disable_liquid,%isTunnel);
-	Mining_newBrick(%x,%y,%z+4,%this,%disable_liquid,%isTunnel);
-	Mining_newBrick(%x,%y,%z-4,%this,%disable_liquid,%isTunnel);
+	Mining_newBrick(%x+4,%y,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x-4,%y,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y+4,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y-4,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y,%z+4,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y,%z-4,%this,%disable_special,%isTunnel);
 }
 
 function fxDTSBrick::spawnTunnel(%this) {
@@ -216,6 +283,13 @@ function fxDTSBrick::mineBrick(%this,%player) {
 			%client.points += %row.value;
 		}
 
+		if(isObject(%this.liquidObj)) {
+			%player.increaseHealth(5);
+			%client.updateBottomPrint_Weapon();
+		} else {
+			%client.updateBottomPrint();
+		}
+
 		if(isObject(%this.PhysicalZone)) {
 			%this.PhysicalZone.delete();
 		}
@@ -227,8 +301,8 @@ function fxDTSBrick::mineBrick(%this,%player) {
 		%this.schedule(3000,delete);
 	} else {
 		%this.playSound(pop_low);
+		%client.updateBottomPrint();
 	}
-	%client.updateBottomPrint();
 	%client.printMiningBrickInfo(%this);
 }
 

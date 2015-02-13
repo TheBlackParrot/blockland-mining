@@ -18,7 +18,7 @@ function Player::doLiquidLoop(%this) {
 	while((%targetObject = containerSearchNext()) != 0 && isObject(%targetObject)) {
 		if(%targetObject.liquidObj != -1) {
 			if(%targetObject.hazardous) {
-				%this.addHealth(-5);
+				%this.doDamage(5,%targetObject.type);
 				%this.playPain();
 			}
 		}

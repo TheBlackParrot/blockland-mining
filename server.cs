@@ -114,6 +114,7 @@ exec("./player_functions.cs");
 exec("./brick_functions.cs");
 exec("./liquid_functions.cs");
 exec("./db_functions.cs");
+exec("./bot_functions.cs");
 exec("./explosions.cs");
 exec("./levels.cs");
 exec("./commands.cs");
