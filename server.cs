@@ -17,7 +17,7 @@ function setMiningVersion() {
 	%file = new FileObject();
 	%file.openForRead($Mining::Root @ "/.git/refs/heads/master");
 
-	$Mining::Version = getSubStr(%file.readLine(),0,6);
+	$Mining::Version = getSubStr(%file.readLine(),0,7);
 
 	%file.close();
 	%file.delete();

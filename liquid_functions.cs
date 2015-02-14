@@ -17,7 +17,7 @@ function Player::doLiquidLoop(%this) {
 	initContainerBoxSearch(%this.getPosition(), "0.1 0.1 0.1", $TypeMasks::FXBrickObjectType);
 	while((%targetObject = containerSearchNext()) != 0 && isObject(%targetObject)) {
 		if(%targetObject.liquidObj != -1) {
-			if(%targetObject.hazardous) {
+			if(%targetObject.hazardous && !%this.isDead) {
 				%this.doDamage(5,%targetObject.type);
 				%this.playPain();
 			}

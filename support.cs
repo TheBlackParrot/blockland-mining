@@ -1,4 +1,5 @@
 function RGBToHex(%rgb) {
+	%rgb = getWords(%rgb,0,2);
 	for(%i=0;%i<getWordCount(%rgb);%i++) {
 		%dec = mFloor(getWord(%rgb,%i)*255);
 		%str = "0123456789ABCDEF";

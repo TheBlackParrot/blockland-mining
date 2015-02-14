@@ -98,17 +98,17 @@ package MiningBotPackage {
 	function SwordProjectile::onCollision(%this,%obj,%col,%fade,%pos,%normal) {
 		if(%col.getClassName() $= "AIPlayer") {
 			%col.doDamage(%obj.client,getRandom(5,10));
-			%col.hFollowPlayer(%obj);
+			%col.hFollowPlayer(%obj.sourceObject);
 			%obj.client.printBotInfo(%col);
 		}
 	}
 
 	function armor::onCollision(%this,%obj,%col,%fade,%pos,%normal) {
 		if(%col.getClassName() $= "AIPlayer" && %obj.getClassName() $= "Player") {
-			if(isObject(%obj)) {
-				if(%obj.getState() !$= "Dead" && %col.getState() !$= "Dead") {
+			if(isObject(%obj) && isObject(%col)) {
+				if(%obj.getState() !$= "Dead" && %col.getState() !$= "Dead" && !%obj.isDead) {
 					%obj.doDamage(5,%col);
-					%col.hSpazzClick();
+					%col.playThread(1,activate2);
 				}
 			}
 		}

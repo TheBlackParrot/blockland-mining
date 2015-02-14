@@ -3,6 +3,8 @@ function serverCmdUpgrade(%this,%which) {
 	%which = strLwr(%which);
 	if(stripos(%allowed,%which) != -1) {
 		%this.increaseLevel(%which);
+	} else {
+		messageClient(%this,'',"\c6You can upgrade the following items in your Manipulator:\c3 power, speed");
 	}
 }
 

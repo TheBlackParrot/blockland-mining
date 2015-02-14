@@ -90,7 +90,28 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 		}
 	}
 
-	if(getRandom(0,1100) <= 5 && !%isTunnel && !%disable_special) {
+	return %brick || -1;
+}
+
+function fxDTSBrick::placeSurroundings(%this,%disable_special,%pos_override,%isTunnel) {
+	%x = getWord(%this.getPosition(),0);
+	%y = getWord(%this.getPosition(),1);
+	%z = getWord(%this.getPosition(),2);
+
+	if(%pos_override !$= "" && getWordCount(%pos_override) == 3) {
+		%x = getWord(%pos_override,0);
+		%y = getWord(%pos_override,0);
+		%z = getWord(%pos_override,0);
+	}
+
+	Mining_newBrick(%x+4,%y,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x-4,%y,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y+4,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y-4,%z,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y,%z+4,%this,%disable_special,%isTunnel);
+	Mining_newBrick(%x,%y,%z-4,%this,%disable_special,%isTunnel);
+
+	if(getRandom(0,220) <= 5 && !%isTunnel && !%disable_special) {
 		%spawner = new fxDTSBrick(MiningBrick) {
 			angleID = 0;
 			colorFxID = 0;
@@ -156,26 +177,6 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 		%spawner.onBotSpawn();
 		%spawner.schedule(66,correctBotPosition,%x,%y,%z+2);
 	}
-	return %brick || -1;
-}
-
-function fxDTSBrick::placeSurroundings(%this,%disable_special,%pos_override,%isTunnel) {
-	%x = getWord(%this.getPosition(),0);
-	%y = getWord(%this.getPosition(),1);
-	%z = getWord(%this.getPosition(),2);
-
-	if(%pos_override !$= "" && getWordCount(%pos_override) == 3) {
-		%x = getWord(%pos_override,0);
-		%y = getWord(%pos_override,0);
-		%z = getWord(%pos_override,0);
-	}
-
-	Mining_newBrick(%x+4,%y,%z,%this,%disable_special,%isTunnel);
-	Mining_newBrick(%x-4,%y,%z,%this,%disable_special,%isTunnel);
-	Mining_newBrick(%x,%y+4,%z,%this,%disable_special,%isTunnel);
-	Mining_newBrick(%x,%y-4,%z,%this,%disable_special,%isTunnel);
-	Mining_newBrick(%x,%y,%z+4,%this,%disable_special,%isTunnel);
-	Mining_newBrick(%x,%y,%z-4,%this,%disable_special,%isTunnel);
 }
 
 function fxDTSBrick::spawnTunnel(%this) {
@@ -270,6 +271,9 @@ function fxDTSBrick::checkSurroundingLiquids(%this) {
 }
 
 function fxDTSBrick::mineBrick(%this,%player) {
+	if(%player.getState() $= "Dead") {
+		return;
+	}
 	%client = %player.client;
 	%this.hits += %client.level[power];
 	if(%this.hits >= %this.health) {
@@ -284,7 +288,9 @@ function fxDTSBrick::mineBrick(%this,%player) {
 		}
 
 		if(isObject(%this.liquidObj)) {
-			%player.increaseHealth(5);
+			if(!%this.hazardous) {
+				%player.increaseHealth(5);
+			}
 			%client.updateBottomPrint_Weapon();
 		} else {
 			%client.updateBottomPrint();

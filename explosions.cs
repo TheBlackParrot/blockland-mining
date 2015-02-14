@@ -10,6 +10,9 @@ function Mining_doExplosionStep(%pos,%radius,%o_realtime) {
 }
 
 function Mining_doExplosion(%brick,%radius) {
+	if(!isObject(%brick)) {
+		return;
+	}
 	Mining_doExplosionStep(%brick.getPosition(),%radius+5,getRealTime());
 }
 

@@ -2,7 +2,7 @@ function Player::miningLoop(%this) {
 	if(%this.miningLoop) {
 		cancel(%this.miningLoop);
 	}
-	if(%this.currTool != -1) {
+	if(%this.currTool != -1 || %this.getState() $= "Dead") {
 		return;
 	}
 
@@ -12,6 +12,7 @@ function Player::miningLoop(%this) {
 		%brick.setLight("Mining_LightTrigger");
 		%brick.lightSched = %brick.schedule(70,setLight,Mining_Light @ %brick.colorID);
 		%brick.setColorFX(3);
+		%this.playThread(1,activate);
 	}
 
 	if(%this.wasLookingAt != %brick && isObject(%this.wasLookingAt)) {
@@ -53,10 +54,12 @@ function Player::getLookingAt(%this,%distance)
 
 function Player::doDamage(%this,%amount,%killer) {
 	%this.health -= %amount;
-	%this.setDamageLevel(0);
-	%this.setDamageFlash(%amount/(%this.client.maxHealth/5));
-	if(%this.health <= 0) {
+	if(%this.health <= 0 && %this.getState() !$= "Dead" && !%this.isDead) {
+		%this.setDamageLevel(0);
+		%this.setDamageFlash(%amount/(%this.client.maxHealth/5));
+		%this.isDead = 1;
 		%this.health = 0;
+
 		if(isObject(%killer)) {
 			messageAll('',%this.client.name SPC "was killed by a" SPC %killer.type);
 		} else {
@@ -64,7 +67,11 @@ function Player::doDamage(%this,%amount,%killer) {
 		}
 		%this.kill();
 	}
-	%this.client.updateBottomPrint_Weapon();
+
+	// apparently i need this check. why
+	if(isObject(%this.client)) {
+		%this.client.updateBottomPrint_Weapon();
+	}
 }
 
 function Player::increaseHealth(%this,%amount) {
