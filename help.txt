@@ -17,7 +17,13 @@
 <color:ffffff>Both saving and loading is automatic. Every time you mine <color:ffee00>any brick<color:ffffff>, your game saves. Crashes + data loss is a thing of the past.
 <color:ffffff>Your game loads when you enter the server, and it would be pointless to re-load your data manually due to the way it saves.
 <color:ffffff>Your data is fine, trust me.
+<color:ff00ff>==-- TRADING --==
+<color:ffffff>Trading is done via the /trade command. Think of the syntax as follows: <color:ccffff>You want to trade [player] some ore (yours) for some ore (theirs).
+<color:ffffff>An example: <color:ffee00>/trade <color:ffee00>Blockhead182731 <color:00ff00>16 copper <color:ffee00>4 gold
+<color:00ff00>(you) <color:ffee00>(them)
+<color:ffffff>In this case, you would give away 16 copper to Blockhead182731, receive 4 gold from them, and vice versa for them. They would receive 16 copper, and give away 4 gold to you.
 <color:ff00ff>==-- CHANGELOG --==
+<color:22ffaa>2292a0d <color:999999>[02/14/2015] <color:ffffff>-- multiple bug fixes from previous additions, see the repo for specifics
 <color:22ffaa>9c4ecb8 <color:999999>[02/13/2015] <color:ffffff>-- added zombies/swords, leveling system is a placeholder (will expand later), cavern chance balancing
 <color:22ffaa>43a27cb <color:999999>[02/09/2015] <color:ffffff>-- added caverns, added liquids
 <color:22ffaa>604a2b4 <color:999999>[02/08/2015] <color:ffffff>-- first appearance of server
