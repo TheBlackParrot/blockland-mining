@@ -118,7 +118,9 @@ exec("./bot_functions.cs");
 exec("./explosions.cs");
 exec("./levels.cs");
 exec("./commands.cs");
+exec("./gui.cs");
 exec("./saving.cs");
+exec("./trading.cs");
 
 PlayerStandardArmor.jumpForce = "1300";
 

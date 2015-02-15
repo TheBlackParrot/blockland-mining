@@ -107,7 +107,7 @@ package MiningBotPackage {
 		if(%col.getClassName() $= "AIPlayer" && %obj.getClassName() $= "Player") {
 			if(isObject(%obj) && isObject(%col)) {
 				if(%obj.getState() !$= "Dead" && %col.getState() !$= "Dead" && !%obj.isDead) {
-					%obj.doDamage(5,%col);
+					%obj.doDamage(1,%col);
 					%col.playThread(1,activate2);
 				}
 			}

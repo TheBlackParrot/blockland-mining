@@ -3,8 +3,10 @@ function Player::miningLoop(%this) {
 		cancel(%this.miningLoop);
 	}
 	if(%this.currTool != -1 || %this.getState() $= "Dead") {
+		%this.stopMining();
 		return;
 	}
+	%this.lastTriggered = getSimTime();
 
 	%brick = %this.getLookingAt();
 	if(isObject(%brick)) {
@@ -21,6 +23,12 @@ function Player::miningLoop(%this) {
 	}
 	%this.wasLookingAt = %brick;
 	%this.miningLoop = %this.schedule(%this.client.getMiningDelay(),miningLoop);
+
+	// reducing data sent
+	if(%this.oldPos !$= %this.getPosition()) {
+		%this.client.sendGUIVar("position",%this.getPosition());
+	}
+	%this.oldPos = %this.getPosition();
 }
 function Player::stopMining(%this) {
 	cancel(%this.miningLoop);
@@ -54,9 +62,9 @@ function Player::getLookingAt(%this,%distance)
 
 function Player::doDamage(%this,%amount,%killer) {
 	%this.health -= %amount;
+	%this.setDamageLevel(0);
+	%this.setDamageFlash(%amount/(%this.client.maxHealth/5));
 	if(%this.health <= 0 && %this.getState() !$= "Dead" && !%this.isDead) {
-		%this.setDamageLevel(0);
-		%this.setDamageFlash(%amount/(%this.client.maxHealth/5));
 		%this.isDead = 1;
 		%this.health = 0;
 
@@ -70,6 +78,7 @@ function Player::doDamage(%this,%amount,%killer) {
 
 	// apparently i need this check. why
 	if(isObject(%this.client)) {
+		%this.client.sendGUIVar("health",%this.health,%this.client.maxHealth);
 		%this.client.updateBottomPrint_Weapon();
 	}
 }
@@ -95,11 +104,12 @@ function GameConnection::updateBottomPrint(%this) {
 function GameConnection::updateBottomPrint_Weapon(%this) {
 	%str[1] = "<color:ffaaaa>" @ %this.player.health @ "/" @ %this.maxHealth SPC "HP";
 	%str[2] = "<just:right>\c3LV" SPC %this.level SPC "\c5" @ %this.exp @ "/" @ getLevelCost(%this.level) SPC "EXP";
-	%this.bottomPrint(%str[1] @ %str[2]);
+	%this.bottomPrint(%str[1] @ %str[2],5);
 }
 
 function GameConnection::getMiningDelay(%this) {
-	%speed = 400 - ((%this.level[speed]-1) * 8);
+	//increase from 8 to 15 should now max out at level 20 instead of 37
+	%speed = 400 - ((%this.level[speed]-1) * 15);
 	if(%speed < 100) {
 		%speed = 100;
 	}
@@ -113,7 +123,6 @@ package MiningPlayerPackage {
 				if(%obj.currTool == -1 || %obj.currTool $= "") {
 					if(getSimTime() - %obj.lastTriggered > %obj.client.getMiningDelay()) {
 						%obj.miningLoop();
-						%obj.lastTriggered = getSimTime();
 					}
 				}
 			} else {
@@ -129,6 +138,7 @@ package MiningPlayerPackage {
 		parent::spawnPlayer(%this);
 		%this.player.health = %this.maxHealth = 100;
 		%this.player.currTool = -1;
+		serverCmdMiningServer_requestGUIVars(%this);
 	}
 };
 activatePackage(MiningPlayerPackage);

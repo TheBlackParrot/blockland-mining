@@ -285,6 +285,8 @@ function fxDTSBrick::mineBrick(%this,%player) {
 			%row = %this.oreObj;
 			%client.amount[strLwr(%row.type)]++;
 			%client.points += %row.value;
+			%client.sendGUIVar("ore",%this.type,%client.amount[%this.type]);
+			%client.sendGUIVar("score",%client.points);
 		}
 
 		if(isObject(%this.liquidObj)) {
@@ -292,8 +294,7 @@ function fxDTSBrick::mineBrick(%this,%player) {
 				%player.increaseHealth(5);
 			}
 			%client.updateBottomPrint_Weapon();
-		} else {
-			%client.updateBottomPrint();
+			%client.sendGUIVar("health",%player.health,%client.maxHealth);
 		}
 
 		if(isObject(%this.PhysicalZone)) {
@@ -307,7 +308,9 @@ function fxDTSBrick::mineBrick(%this,%player) {
 		%this.schedule(3000,delete);
 	} else {
 		%this.playSound(pop_low);
-		%client.updateBottomPrint();
+		if(!%client.hasGUI) {
+			%client.updateBottomPrint();
+		}
 	}
 	%client.printMiningBrickInfo(%this);
 }

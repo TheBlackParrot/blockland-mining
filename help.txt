@@ -2,6 +2,7 @@
 <color:00ffff>Welcome to TheBlackParrot's Mining Gamemode!
 <color:ffffff>This is under heavy development, so bugs and weird things are bound to occur. Please report them immediately if you come across any.
 <a:github.com/TheBlackParrot/blockland-mining>GitHub repository</a> <color:999999>|| <a:github.com/TheBlackParrot/blockland-mining/issues>Issue tracker
+<color:ffee00>A <a:github.com/TheBlackParrot/blockland-mining-gui/blob/master/Client_Mining.zip?raw=true>GUI is available</a>, <color:ffee00>click the link to download it. Place it in your Add-Ons folder and then restart Blockland.
 <color:ffffff>When submitting a bug report, <color:ffee00>mention the version you see here: <color:11aaff>%%VERSION.
 <color:ff00ff>==-- GAMEMODE INFO --==
 <color:ff00bb>-- BRICK GENERATION --
@@ -9,7 +10,7 @@
 <color:ffffff>These "biomes" contain the ores you can mine, and they're not dependent on your position. Some contain rarer ores, some contain more common ones.
 <color:ffffff>Biomes are player-generated, meaning essentially they're not pre-generated. You have the ability to expand, and destroy biomes by mining it, or mining around it.
 <color:ff00bb>-- WHERE'S MY PICKAXE? --
-<color:ffffff>I've done away with the idea of a pickaxe, and have decided to go a route more similar to Starbound's "Matter Manipulator". Just click to "manipulate matter".
+<color:ffffff>I've done away with the idea of a pickaxe, and have decided to go a route more similar to Starbound's "Matter Manipulator". Just click and hold to "manipulate matter".
 <color:ffffff>Instead of upgrading the power of your pickaxe like every other mining gamemode, you upgrade your Manipulator's <color:ffee00>power <color:ffffff>and <color:ffee00>speed. <color:999999>(so far)
 <color:ffffff>Cash isn't used to upgrade it either; I've actually done away with cash for the time being. You collect ores to upgrade your power and speed individually.
 <color:ffffff>Power and speed are also separate, feel free to upgrade one but not the other.
@@ -23,6 +24,7 @@
 <color:00ff00>(you) <color:ffee00>(them)
 <color:ffffff>In this case, you would give away 16 copper to Blockhead182731, receive 4 gold from them, and vice versa for them. They would receive 16 copper, and give away 4 gold to you.
 <color:ff00ff>==-- CHANGELOG --==
+<color:22ffaa>e439584 <color:999999>[02/14/2015] <color:ffffff>-- added trading, see /help for more info
 <color:22ffaa>2292a0d <color:999999>[02/14/2015] <color:ffffff>-- multiple bug fixes from previous additions, see the repo for specifics
 <color:22ffaa>9c4ecb8 <color:999999>[02/13/2015] <color:ffffff>-- added zombies/swords, leveling system is a placeholder (will expand later), cavern chance balancing
 <color:22ffaa>43a27cb <color:999999>[02/09/2015] <color:ffffff>-- added caverns, added liquids
@@ -30,4 +32,6 @@
 <color:ff00ff>==-- COMMANDS --==
 <color:ffee00>/help <color:ffffff>-- This command you're reading.
 <color:ffee00>/upgrade <color:ff00ff>[power,speed] <color:ffffff>-- Upgrades the level of the item specified. The amount of ores you need is mentioned in case you do not have enough.
+<color:ffee00>/trade <color:ff00ff>[player] [amount giving] [ore giving] [amount receiving] [ore receiving] <color:ffffff>-- <color:999999>See the trading section for details.
+<color:ffee00>/info <color:ff00ff>[target] <color:ffffff>-- Get information on a player's stats.
 <color:0000ff>================

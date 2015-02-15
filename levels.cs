@@ -32,6 +32,7 @@ function GameConnection::increaseLevel(%this,%which) {
 
 	if(%this.getMiningDelay() <= 100 && %which $= "speed") {
 		messageClient(%this,'',"\c6You cannot increase your \c3speed level \c6any further.");
+		return;
 	}
 
 	for(%i=0;%i<getFieldCount(%costs);%i++) {
@@ -60,6 +61,6 @@ function GameConnection::increaseLevel(%this,%which) {
 			}
 		}
 		messageClient(%this,'',"\c6Your\c3" SPC %which SPC "level \c6has been increased to \c4level" SPC %this.level[%which] @ "\c6!");
-		%this.updateBottomPrint();
+		serverCmdMiningServer_requestGUIVars(%this);
 	}
 }
