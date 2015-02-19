@@ -180,6 +180,7 @@ package MiningPlayerPackage {
 		parent::spawnPlayer(%this);
 		%this.player.health = %this.maxHealth = 100;
 		%this.player.currTool = -1;
+		%this.player.setEnergyLevel(50);
 		serverCmdMiningServer_requestGUIVars(%this);
 	}
 };

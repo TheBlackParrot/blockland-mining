@@ -42,7 +42,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 		// basically is it dirt
 		// using this check for special bricks
 		if(!%disable_special && %ore == -1 && %liquid == -1) {
-			if(getRandom(0,150) <= 6) {
+			if(getRandom(0,1500) <= 6) {
 				%color = 41;
 				// until i can find a way to merge jets into the miningLoop function, this will remain at 50
 				// put to 200 afterwards.
@@ -274,7 +274,6 @@ function fxDTSBrick::checkSurroundingLiquids(%this) {
 		if(isObject(%brick[%i])) {
 			if(%brick[%i].PhysicalZone) {
 				if(!%brick[%i].isSurrounded()) {
-					talk("SHOULD DELETE" SPC %brick[%i]);
 					%brick[%i].delete();
 				}
 			}
@@ -307,13 +306,29 @@ function fxDTSBrick::mineBrick(%this,%player) {
 			%row = %this.oreObj;
 			%client.amount[strLwr(%row.type)]++;
 			%client.points += %row.value;
+			if(%this.type $= "Coal") {
+				if(%player.getEnergyLevel() < 100) {
+					%player.setEnergyLevel(%player.getEnergyLevel() + 4);
+					if(%player.getEnergyLevel() > 100) {
+						%player.setEnergyLevel(100);
+					}
+				}
+			}
 			%client.sendGUIVar("ore",%this.type,%client.amount[%this.type]);
 			%client.sendGUIVar("score",%client.points);
 		}
 
 		if(isObject(%this.liquidObj)) {
-			if(!%this.hazardous) {
+			if(%this.type $= "Water") {
 				%player.increaseHealth(5);
+			}
+			if(%this.type $= "Fuel") {
+				if(%player.getEnergyLevel() < 100) {
+					%player.setEnergyLevel(%player.getEnergyLevel() + 15);
+					if(%player.getEnergyLevel() > 100) {
+						%player.setEnergyLevel(100);
+					}
+				}
 			}
 			%client.updateBottomPrint_Weapon();
 			%client.sendGUIVar("health",%player.health,%client.maxHealth);
