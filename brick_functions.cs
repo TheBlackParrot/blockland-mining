@@ -317,6 +317,9 @@ function fxDTSBrick::mineBrick(%this,%player) {
 
 		if(%this.type $= "Natural Gas") {
 			%this.doExplosion(getRandom(5,12));
+			for(%i=0;%i<ClientGroup.getCount();%i++) {
+				ClientGroup.getObject(%i).doExplosionSound(%client);
+			}
 		}
 
 		%this.schedule(3000,delete);

@@ -119,6 +119,32 @@ function GameConnection::getMiningDelay(%this) {
 	return %speed;
 }
 
+function GameConnection::doExplosionSound(%this,%target) {
+	if(!isObject(%target)) {
+		return;
+	}
+
+	%targetPlayer = %target.player;
+	%player = %this.player;
+	if(!isObject(%player)) {
+		%player = %this.Camera;
+	}
+	if(!isObject(%targetPlayer)) {
+		%targetPlayer = %target.Camera;
+	}
+
+	%dist = vectorDist(%player.getPosition(),%targetPlayer.getPosition());
+	if(%dist < 40) {
+		%this.play2D(explosion_close);
+	}
+	if(%dist >= 40 && %dist < 200) {
+		%this.play2D(explosion_neither);
+	}
+	if(%dist >= 200) {
+		%this.play2D(explosion_far);
+	}
+}
+
 package MiningPlayerPackage {
 	function armor::onTrigger(%db,%obj,%slot,%val) {
 		if(%obj.getClassName() $= "Player" && !%slot) {
