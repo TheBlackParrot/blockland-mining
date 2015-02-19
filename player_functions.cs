@@ -49,7 +49,7 @@ function Player::stopMining(%this) {
 function Player::getLookingAt(%this,%distance)
 {
 	if(!%distance) {
-		%distance = 15;
+		%distance = 5 + ((%this.client.level[range]-1)*2);
 	}
 
 	%eye = vectorScale(%this.getEyeVector(),%distance);

@@ -1,10 +1,10 @@
 function serverCmdUpgrade(%this,%which) {
-	%allowed = "power speed";
+	%allowed = "power speed range";
 	%which = strLwr(%which);
 	if(stripos(%allowed,%which) != -1) {
 		%this.increaseLevel(%which);
 	} else {
-		messageClient(%this,'',"\c6You can upgrade the following items in your Manipulator:\c3 power, speed");
+		messageClient(%this,'',"\c6You can upgrade the following items in your Manipulator:\c3" SPC %allowed);
 	}
 }
 
@@ -49,6 +49,7 @@ function serverCmdInfo(%this,%target) {
 	}
 	messageClient(%this,'',"<color:22ffaa>Power Level\c6:" SPC %target.level[power]);
 	messageClient(%this,'',"<color:22ffaa>Speed Level\c6:" SPC %target.level[speed]);
+	messageClient(%this,'',"<color:22ffaa>Range Level\c6:" SPC %target.level[range]);
 	messageClient(%this,'',"<color:aaff22>Player Level\c6:" SPC %target.level);
 	messageClient(%this,'',"<color:aaff22>EXP Points\c6:" SPC %target.exp SPC "/" SPC getLevelCost(%target.level));
 	messageClient(%this,'',"<color:ccaaff>Score\c6:" SPC %target.points);

@@ -40,6 +40,7 @@ function GameConnection::saveMiningGame(%this) {
 
 	%file.writeLine("level" TAB "power" TAB %this.level[power]);
 	%file.writeLine("level" TAB "speed" TAB %this.level[speed]);
+	%file.writeLine("level" TAB "range" TAB %this.level[range]);
 
 	%file.writeLine("general" TAB "points" TAB %this.points);
 
@@ -53,9 +54,14 @@ package MiningSavingPackage {
 	function GameConnection::autoAdminCheck(%this) {
 		if(isFile($Mining::SaveDir @ "/" @ sha1(%this.bl_id))) {
 			%this.loadMiningGame();
+			// checks like this will be taken out later on in the game
+			if(!%this.level[range]) {
+				%this.level[range] = 1;
+			}
 		} else {
 			%this.level[power] = 1;
 			%this.level[speed] = 1;
+			%this.level[range] = 1;
 			%this.points = 0;
 		}
 		%this.setCosts();
