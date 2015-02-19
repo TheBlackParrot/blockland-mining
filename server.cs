@@ -124,6 +124,7 @@ exec("./trading.cs");
 
 PlayerStandardArmor.jumpForce = "1300";
 PlayerStandardArmor.jetEnergyDrain = "0.1";
+PlayerStandardArmor.minJetEnergy = "0.1";
 PlayerStandardArmor.rechargeRate = "0";
 PlayerStandardArmor.showEnergyBar = "1";
 
