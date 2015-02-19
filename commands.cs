@@ -24,6 +24,7 @@ function serverCmdInfo(%this,%target) {
 	%target = findClientByName(%target);
 	if(!isObject(%target)) {
 		messageClient(%this,'',"\c6This player doesn't exist!");
+		%this.play2D(errorSound);
 		return;
 	}
 

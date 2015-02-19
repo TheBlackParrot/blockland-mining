@@ -20,17 +20,20 @@ function serverCmdTrade(%this,%target,%amount_giving,%ore_giving,%amount_taking,
 
 	if(%amount_giving <= 0 || %amount_taking <= 0) {
 		messageClient(%this,'',"\c6You cannot use 0 or negative amounts.");
+		%this.play2D(errorSound);
 		return;
 	}
 
 	if(!isObject(findClientByName(%target))) {
 		messageClient(%this,'',"\c6This player doesn't exist!");
+		%this.play2D(errorSound);
 		return;
 	} else {
 		%target = findClientByName(%target);
 	}
 	if(%target == %this) {
 		messageClient(%this,'',"\c6You cannot trade with yourself. \c7(Equivalent exchange may be added in the future though!)");
+		%this.play2D(errorSound);
 		return;
 	}
 
@@ -39,28 +42,34 @@ function serverCmdTrade(%this,%target,%amount_giving,%ore_giving,%amount_taking,
 	%ores = "copper coal silver iron gold platinum titanium diamond uranium plutonium solarium aegisalt rubium violium erchius";
 	if(stripos(%ores,%ore_giving) == -1) {
 		messageClient(%this,'',"\c3" @ %ore_giving SPC "\c6doesn't exist!");
+		%this.play2D(errorSound);
 		return;
 	}
 	if(stripos(%ores,%ore_taking) == -1) {
 		messageClient(%this,'',"\c3" @ %ore_taking SPC "\c6doesn't exist!");
+		%this.play2D(errorSound);
 		return;
 	}
 
 	if(%this.amount[%ore_giving] < %amount_giving) {
 		messageClient(%this,'',"\c6You don't have<color:" @ getOreColor(%ore_giving) @ ">" SPC %amount_giving SPC %ore_giving SPC "\c6to trade!");
+		%this.play2D(errorSound);
 		return;
 	}
 	if(%target.amount[%ore_taking] < %amount_taking) {
 		messageClient(%this,'',"\c3" @ %target.name SPC "\c6doesn't have<color:" @ getOreColor(%ore_taking) @ ">" SPC %amount_taking SPC %ore_taking SPC "\c6to trade!");
+		%this.play2D(errorSound);
 		return;
 	}
 
 	if(isObject(%this.trading[target])) {
 		messageClient(%this,'',"\c6You're already trading with\c3" SPC %this.trading[target].name @ "\c6!");
+		%this.play2D(errorSound);
 		return;
 	}
 	if(isObject(%target.trading[target])) {
 		messageClient(%this,'',"\c3" @ %target.name SPC "\c6 is already trading with someone!");
+		%this.play2D(errorSound);
 		return;
 	}
 
@@ -96,11 +105,13 @@ function GameConnection::acceptTrade(%this) {
 
 	if(%this.amount[%ore_giving] < %amount_giving) {
 		messageClient(%this,'',"\c6You don't have<color:" @ getOreColor(%ore_giving) @ ">" SPC %amount_giving SPC %ore_giving SPC "\c6to trade!");
+		%this.play2D(errorSound);
 		%this.declineTrade();
 		return;
 	}
 	if(%target.amount[%ore_taking] < %amount_taking) {
 		messageClient(%this,'',"\c3" @ %target.name SPC "\c6doesn't have<color:" @ getOreColor(%ore_taking) @ ">" SPC %amount_taking SPC %ore_taking SPC "\c6to trade!");
+		%this.play2D(errorSound);
 		%this.declineTrade();
 		return;
 	}
@@ -127,6 +138,7 @@ function GameConnection::declineTrade(%this) {
 	%target = %this.trading[%target];
 
 	messageClient(%target,'',"\c3" @ %this.name SPC "\c6has declined your trade offer.");
+	%target.play2D(errorSound);
 
 	%this.trading[being_asked] = 0;
 	%this.trading[target] = "";

@@ -60,7 +60,11 @@ function GameConnection::increaseLevel(%this,%which) {
 				%this.amount[%ore] -= %cost;
 			}
 		}
-		messageClient(%this,'',"\c6Your\c3" SPC %which SPC "level \c6has been increased to \c4level" SPC %this.level[%which] @ "\c6!");
+		//messageClient(%this,'',"\c6Your\c3" SPC %which SPC "level \c6has been increased to \c4level" SPC %this.level[%which] @ "\c6!");
+		messageAll('',"\c3" @ %this.name SPC "\c6has just increased their\c3" SPC %which SPC "level \c6to \c4level" SPC %this.level[%which] @ "\c6!");
+		serverPlay2D(level_up);
 		serverCmdMiningServer_requestGUIVars(%this);
+	} else {
+		%this.play2D(errorSound);
 	}
 }

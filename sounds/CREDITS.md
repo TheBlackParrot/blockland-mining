@@ -12,3 +12,6 @@ explosion_neither.wav
 
 explosion_far.wav
 > [Distant explosion.wav](http://freesound.org/people/juskiddink/sounds/108640/) by [juskiddink](http://freesound.org/people/juskiddink/)
+
+level_up.wav
+> [ping 2.wav](http://freesound.org/people/cameronmusic/sounds/138419/) by [cameronmusic](http://freesound.org/people/cameronmusic/)
