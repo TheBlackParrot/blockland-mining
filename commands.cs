@@ -54,3 +54,20 @@ function serverCmdInfo(%this,%target) {
 	messageClient(%this,'',"<color:aaff22>EXP Points\c6:" SPC %target.exp SPC "/" SPC getLevelCost(%target.level));
 	messageClient(%this,'',"<color:ccaaff>Score\c6:" SPC %target.points);
 }
+
+function serverCmdBlocks(%this,%which) {
+	%allowed = "biome ore liquid";
+	if(%which $= "" || stripos(%allowed,%which) == -1) {
+		messageClient(%this,'',"\c6You can list the following types of blocks:\c3" SPC %allowed);
+		return;
+	}
+
+	%which = strLwr(%which);
+	if(stripos(%allowed,%which) != -1) {
+		%list = %which @ "List";
+		for(%i=0;%i<%list.getCount();%i++) {
+			%row = %list.getObject(%i);
+			messageClient(%this,'',"\c6" @ %i+1 @ ". <color:" @ RGBToHex(getColorIDTable(%row.color)) @ ">" @ %row.type);
+		}
+	}
+}

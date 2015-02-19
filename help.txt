@@ -32,7 +32,8 @@
 <color:22ffaa>604a2b4 <color:999999>[02/08/2015] <color:ffffff>-- first appearance of server
 <color:ff00ff>==-- COMMANDS --==
 <color:ffee00>/help <color:ffffff>-- This command you're reading.
-<color:ffee00>/upgrade <color:ff00ff>[power,speed] <color:ffffff>-- Upgrades the level of the item specified. The amount of ores you need is mentioned in case you do not have enough.
+<color:ffee00>/upgrade <color:ff00ff>[item] <color:ffffff>-- Upgrades the level of the item specified. The amount of ores you need is mentioned in case you do not have enough.
 <color:ffee00>/trade <color:ff00ff>[player] [amount giving] [ore giving] [amount receiving] [ore receiving] <color:ffffff>-- <color:999999>See the trading section for details.
 <color:ffee00>/info <color:ff00ff>[target] <color:ffffff>-- Get information on a player's stats.
+<color:ffee00>/blocks <color:ff00ff>[list] <color:ffffff>-- Get information on the type of blocks in the game (ores, biomes, liquids, etc.).
 <color:0000ff>================

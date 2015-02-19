@@ -162,6 +162,11 @@ package MiningPlayerPackage {
 			}
 		}
 		if(%obj.getClassName() $= "Player" && %slot == 4 && %val) {
+			if(%obj.getEnergyLevel() <= 0.1) {
+				messageClient(%obj.client,'',"\c6You need more \c5fuel\c6! Try finding some Fuel or Coal.");
+				%obj.client.play2D(errorSound);
+				return Parent::onTrigger(%db,%obj,%slot,%val);
+			}
 			initContainerBoxSearch(%obj.getPosition(), "8 8 8", $TypeMasks::FXBrickObjectType);
 			while((%targetObject = containerSearchNext()) != 0 && isObject(%targetObject)) {
 				if(%targetObject.type $= "Natural Gas") {
