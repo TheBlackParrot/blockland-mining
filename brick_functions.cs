@@ -39,6 +39,16 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 			}
 		}
 
+		// basically is it dirt
+		// using this check for special bricks
+		if(!%disable_special && %ore == -1 && %liquid == -1) {
+			if(getRandom(0,1500) <= 6) {
+				%color = 41;
+				%health = 200;
+				%type = "Natural Gas";
+			}
+		}
+
 		%brick = new fxDTSBrick(MiningBrick) {
 			angleID = 0;
 			colorFxID = 0;
@@ -304,6 +314,10 @@ function fxDTSBrick::mineBrick(%this,%player) {
 
 		%this.placeSurroundings();
 		%client.saveMiningGame();
+
+		if(%this.type $= "Natural Gas") {
+			%this.doExplosion(getRandom(5,12));
+		}
 
 		%this.schedule(3000,delete);
 	} else {

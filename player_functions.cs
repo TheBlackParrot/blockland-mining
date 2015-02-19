@@ -10,6 +10,9 @@ function Player::miningLoop(%this) {
 
 	%brick = %this.getLookingAt();
 	if(isObject(%brick)) {
+		if(%brick.type $= "Natural Gas") {
+			return;
+		}
 		%brick.mineBrick(%this);
 		%brick.setLight("Mining_LightTrigger");
 		%brick.lightSched = %brick.schedule(70,setLight,Mining_Light @ %brick.colorID);
@@ -127,6 +130,16 @@ package MiningPlayerPackage {
 				}
 			} else {
 				%obj.stopMining();
+			}
+		}
+		if(%obj.getClassName() $= "Player" && %slot == 4 && %val) {
+			initContainerBoxSearch(%obj.getPosition(), "8 8 8", $TypeMasks::FXBrickObjectType);
+			while((%targetObject = containerSearchNext()) != 0 && isObject(%targetObject)) {
+				if(%targetObject.type $= "Natural Gas") {
+					if(!%obj.isDead) {
+						%targetObject.mineBrick(%obj);
+					}
+				}
 			}
 		}
 

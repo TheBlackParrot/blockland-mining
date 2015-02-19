@@ -16,6 +16,10 @@ function Mining_doExplosion(%brick,%radius) {
 	Mining_doExplosionStep(%brick.getPosition(),%radius+5,getRealTime());
 }
 
+function fxDTSBrick::doExplosion(%this,%radius) {
+	Mining_doExplosion(%this,%radius);
+}
+
 function serverCmdExplosionTest(%client,%radius) {
 	if(%client.bl_id == getNumKeyID()) {
 		%this = %client.player;
