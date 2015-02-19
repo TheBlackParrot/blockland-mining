@@ -286,8 +286,18 @@ function fxDTSBrick::mineBrick(%this,%player) {
 	if(%player.getState() $= "Dead") {
 		return;
 	}
+
 	%client = %player.client;
+	if(%this.lastHitBy[name] !$= %client.name && %this.lastHitBy[time]) {
+		if(getSimTime() - %this.lastHitBy[time] <= 30000) {
+			return -1;
+		}
+	}
+	%this.lastHitBy[name] = %client.name;
+	%this.lastHitBy[time] = getSimTime();
+
 	%this.hits += %client.level[power];
+
 	if(%this.hits >= %this.health) {
 		%this.fakeKillBrick();
 		%this.playSound(pop_high);

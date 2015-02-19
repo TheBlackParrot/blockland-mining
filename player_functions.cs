@@ -13,7 +13,10 @@ function Player::miningLoop(%this) {
 		if(%brick.type $= "Natural Gas") {
 			return;
 		}
-		%brick.mineBrick(%this);
+		if(%brick.mineBrick(%this) == -1) {
+			%this.client.centerPrint("\c6This brick is already being mined by\c3" SPC %brick.lastHitBy[name] @ "\c6.<br>\c6Please wait\c3" SPC mFloor(((%brick.lastHitBy[time]+30000) - getSimTime())/100)/10 SPC "seconds\c6.");
+			return;
+		}
 		%brick.setLight("Mining_LightTrigger");
 		%brick.lightSched = %brick.schedule(70,setLight,Mining_Light @ %brick.colorID);
 		%brick.setColorFX(3);
