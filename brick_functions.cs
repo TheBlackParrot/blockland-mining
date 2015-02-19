@@ -10,6 +10,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 		%value = 0;
 		%hazardous = 0;
 		%datablock = "brick8xCubeData";
+		%sound = "place_block";
 
 		if(isObject(%prev)) {
 			if(isObject(%prev.oreObj) && getRandom(0,50) <= 6) {
@@ -36,6 +37,7 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 				%type = %liquid.type;
 				%hazardous = %liquid.hazardous;
 				%datablock = "brick8xWaterData";
+				%sound = "place_water";
 			}
 		}
 
@@ -100,6 +102,10 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 				}
 			}
 		}
+	}
+
+	if(isObject(%brick)) {
+		%brick.playSound(%sound);
 	}
 
 	return %brick || -1;

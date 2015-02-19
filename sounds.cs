@@ -9,3 +9,5 @@ datablock AudioProfile(explosion_far:pop_high) { filename = "./sounds/explosion_
 datablock AudioProfile(explosion_neither:pop_high) { filename = "./sounds/explosion_neither.wav"; };
 datablock AudioProfile(explosion_close:pop_high) { filename = "./sounds/explosion_close.wav"; };
 datablock AudioProfile(level_up:pop_high) { filename = "./sounds/level_up.wav"; };
+datablock AudioProfile(place_block:pop_high) { filename = "./sounds/place.wav"; };
+datablock AudioProfile(place_water:pop_high) { filename = "./sounds/place_water.wav"; };

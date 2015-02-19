@@ -15,3 +15,9 @@ explosion_far.wav
 
 level_up.wav
 > [ping 2.wav](http://freesound.org/people/cameronmusic/sounds/138419/) by [cameronmusic](http://freesound.org/people/cameronmusic/)
+
+place.wav
+> [dup.mp3](http://freesound.org/people/zippi1/sounds/17945/) by [zippi1](http://freesound.org/people/zippi1/)
+
+place_water.wav
+> [Water bubble 7.wav](http://freesound.org/people/Quistard/sounds/166819/) by [Quistard](http://freesound.org/people/Quistard/)
