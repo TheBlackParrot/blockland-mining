@@ -42,9 +42,11 @@ function Mining_newBrick(%x,%y,%z,%prev,%disable_special,%isTunnel) {
 		// basically is it dirt
 		// using this check for special bricks
 		if(!%disable_special && %ore == -1 && %liquid == -1) {
-			if(getRandom(0,1500) <= 6) {
+			if(getRandom(0,150) <= 6) {
 				%color = 41;
-				%health = 200;
+				// until i can find a way to merge jets into the miningLoop function, this will remain at 50
+				// put to 200 afterwards.
+				%health = 50;
 				%type = "Natural Gas";
 			}
 		}
