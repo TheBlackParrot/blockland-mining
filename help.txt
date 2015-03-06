@@ -24,6 +24,7 @@
 <color:00ff00>(you) <color:ffee00>(them)
 <color:ffffff>In this case, you would give away 16 copper to Blockhead182731, receive 4 gold from them, and vice versa for them. They would receive 16 copper, and give away 4 gold to you.
 <color:ff00ff>==-- CHANGELOG --==
+<color:22ffaa>34c6667 <color:999999>[02/19/2015] <color:ffffff>-- new sounds, natural gas blocks, added theft protection, added range upgrades, jets now require fuel, added /blocks command
 <color:22ffaa>2fa0aca <color:999999>[02/14/2015] <color:ffffff>-- added a GUI due to issues with bottom print, /info command, more bugfixes
 <color:22ffaa>e439584 <color:999999>[02/14/2015] <color:ffffff>-- added trading, see /help for more info
 <color:22ffaa>2292a0d <color:999999>[02/14/2015] <color:ffffff>-- multiple bug fixes from previous additions, see the repo for specifics

@@ -194,6 +194,7 @@ function fxDTSBrick::placeSurroundings(%this,%disable_special,%pos_override,%isT
 		%spawner.hBot = %player;
 		%spawner.onBotSpawn();
 		%spawner.schedule(66,correctBotPosition,%x,%y,%z+2);
+		%player.schedule(120000,kill);
 	}
 }
 
